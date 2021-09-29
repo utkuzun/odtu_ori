@@ -29,22 +29,20 @@ Migrate(app, db)
 # Add views to admin page
 admin = Admin(app, name='odtü ori', template_mode='bootstrap3')
 
-from main.models import User, Athlete, Competition, Stage, Category, Club, TokenBlocklist, Race
+from main.models import User, Athlete, Competition, Stage, Category, Club, TokenBlocklist, Result
 
 class MyModelView(ModelView):
     pass
     # @jwt_required()
     # def is_accessible(self):
     #     return current_user.is_admin
-# class AthStag(ModelView):
+# class RaceView(ModelView):
 #     form_columns = ["athlete_id", "stage_id", "rank", "time"]
 #     # pass
-#     # @jwt_required()
-#     # def is_accessible(self):
-#     #     return current_user.is_admin
-# admin.add_view(AthStag(AthleteStage, db.session))
 
-admin.add_view(MyModelView(Race, db.session))
+# admin.add_view(RaceView(Race, db.session))
+
+admin.add_view(MyModelView(Result, db.session))
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Competition, db.session))
 admin.add_view(MyModelView(Stage, db.session))

@@ -65,7 +65,7 @@ class ClubsAllApi(Resource):
 
 
 class CompetitionApi(Resource):
-    ### returns one Competitions with spesified Competitions_
+    ### returns one Competitions with spesified Competitions_id 
     # @jwt_required()
     def get(self, competition_id):
 

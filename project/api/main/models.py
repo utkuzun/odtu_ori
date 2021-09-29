@@ -58,22 +58,26 @@ category_comp = db.Table("category_comp",
     db.Column("competition_id", db.Integer, db.ForeignKey("competitions.id"))
 )
 
-club_stage = db.Table("club_stage", 
+club_comp = db.Table("club_comp", 
     db.Column("club_id", db.Integer, db.ForeignKey("clubs.id")),
-    db.Column("stage_id", db.Integer, db.ForeignKey("stages.id"))
+    db.Column("competition_id", db.Integer, db.ForeignKey("competitions.id"))
 )
+# stage_athlete = db.Table("stage_athlete", 
+#     db.Column("stage_id", db.Integer, db.ForeignKey("stages.id")),
+#     db.Column("athlete_id", db.Integer, db.ForeignKey("athletes.id")),
+#     db.Column("result_id", db.Integer, db.ForeignKey("results.id")),
+# )
 
-class Race(db.Model):
-    __tablename__ = "races"
+class Result(db.Model):
+    __tablename__ = "results"
     id = db.Column(db.Integer, primary_key=True)
-    athlete_id = db.Column( db.Integer, db.ForeignKey("athletes.id"))
-    stage_id = db.Column( db.Integer, db.ForeignKey("stages.id"))
+    athlete_id = db.Column( db.Integer, db.ForeignKey("athletes.id"), primary_key=True)
+    stage_id = db.Column( db.Integer, db.ForeignKey("stages.id"), primary_key=True)
     rank = db.Column(db.Integer)
     time = db.Column(db.Time)
 
-
-    athlete = db.relationship("Athlete",backref="race", lazy=True, uselist=False)
-    stage = db.relationship("Stage",backref="race", lazy=True, uselist=False)
+    athlete = db.relationship("Athlete",back_populates="result", lazy=True, uselist=False)
+    stage = db.relationship("Stage",back_populates="result", lazy=True, uselist=False)
 
     def __repr__(self):
         return f"<{self.athlete.last_name}--{self.time}, {self.stage.name} ({self.stage.competition.name})>"
@@ -89,11 +93,12 @@ class Athlete(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     si = db.Column(db.String(15), unique=True)
     sex = db.Column(db.String(10), nullable=False)
-    born = db.Column(db.Date, nullable=False)
+    born = db.Column(db.Date, nullable=False)  
     club_id = db.Column(db.Integer, db.ForeignKey("clubs.id"), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
 
-
+    result = db.relationship("Result",back_populates="athlete", lazy=True,viewonly=True)
+    stages = db.relationship("Stage",secondary="results",lazy="subquery", back_populates="athletes")
 
     def __repr__(self):
         return f"<{self.first_name.upper()} {self.last_name} -- {self.club.short_name}>"
@@ -123,8 +128,8 @@ class Stage(db.Model):
     length = db.Column(db.Float, nullable=False)
     controls = db.Column(db.Integer, nullable=False)
 
-    athletes = db.relationship("Athlete",secondary="races",lazy="subquery", backref=db.backref("stages", lazy=True))
-    clubs = db.relationship("Club", secondary=club_stage, lazy="subquery", backref=db.backref("stages", lazy=True))
+    result = db.relationship("Result",back_populates="stage", lazy=True,viewonly=True)
+    athletes = db.relationship("Athlete",secondary="results",lazy="subquery", back_populates="stages")
 
 
     def __repr__(self):
@@ -146,6 +151,7 @@ class Competition(db.Model):
     
     stages = db.relationship("Stage", lazy="subquery", backref=db.backref("competition", lazy=True))
     categories = db.relationship("Category", secondary=category_comp, lazy="subquery", backref=db.backref("competitions", lazy=True))
+    clubs = db.relationship("Club", secondary=club_comp, lazy="subquery", backref=db.backref("competitions", lazy=True))
 
     def __repr__(self):
         return f"<{self.name}, {self.date} -- {self.city}>"

@@ -70,7 +70,6 @@ club_comp = db.Table("club_comp",
 
 class Result(db.Model):
     __tablename__ = "results"
-    id = db.Column(db.Integer, primary_key=True)
     athlete_id = db.Column( db.Integer, db.ForeignKey("athletes.id"), primary_key=True)
     stage_id = db.Column( db.Integer, db.ForeignKey("stages.id"), primary_key=True)
     rank = db.Column(db.Integer)

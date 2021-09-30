@@ -7,7 +7,7 @@ from main.schemas.auth import UserSchema, ClubSchema, AthleteSchema, Competition
 
 try:
     club_schema = ClubSchema()
-    clubs_schema = ClubSchema(many=True, exclude=("stages","athletes", "user"))
+    clubs_schema = ClubSchema(many=True, exclude=("athletes", "user"))
 
 
     competition_schema = CompetitionSchema()

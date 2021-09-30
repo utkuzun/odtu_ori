@@ -16,7 +16,7 @@ class ClubSchema(Schema):
     # Nested fields
     user = fields.Nested("UserSchema",only=("id","first_name", "last_name", "email"))
     athletes = fields.List(fields.Nested("AthleteSchema",exclude=("club",)))
-    stages = fields.List(fields.Nested("StageSchema", only=("id", "short_name", "competition")))
+    competitions = fields.List(fields.Nested("CompetitionSchema", only=("id", "name", "competition", "is_active", "city", "date")))
 
 class RaceSchema(Schema):
 
@@ -44,6 +44,8 @@ class AthleteSchema(Schema):
     # Nested fields
     club = fields.Nested("ClubSchema",only=("id","short_name", "name", "city"))
     stages = fields.List(fields.Nested("StageSchema", only=("id", "name","competition")))
+    results = fields.List(fields.Nested("ResultSchema", exclude=("stage", "athlete")))
+
     
     # validate if si number already in use
     @validates("si")
@@ -106,6 +108,17 @@ class StageSchema(Schema):
     # Nested fields
     competition = fields.Nested("CompetitionSchema", only=("id", "name", "date", "city"))
     athletes = fields.List(fields.Nested("AthleteSchema", only=("id", "first_name","last_name", "category")))
+    results= fields.List(fields.Nested("ResultSchema", exclude=("stage", "athlete")))
+
+
+class ResultSchema(Schema):
+    athlete_id = fields.Int(required= True, dump_only=True)
+    stage_id = fields.Int(required= True, dump_only=True)
+    time = fields.Time()
+    rank = fields.Int()
+
+    athlete = fields.Nested("AthleteSchema", only=("id", "first_name","last_name", "category","club"))
+    stage = fields.Nested("StageSchema", exclude=("competition","athletes", "results"))
 
 
 class CompetitionSchema(Schema):
@@ -130,6 +143,9 @@ class UserSchema(Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True, load_only=True) 
     password_rep = fields.String(required=True, load_only=True) 
+    is_director = fields.Boolean(required= True, dump_only=True, default=False)
+
+
     club = fields.Nested("ClubSchema", only=("id","short_name", "name", "city"))
 
     # validate if email number already in use

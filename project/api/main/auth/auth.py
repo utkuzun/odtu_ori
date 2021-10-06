@@ -32,9 +32,10 @@ class RegisterApi(Resource):
         club = Club.query.filter_by(name=athlete_data["club"]["name"]).first()
         category = Category.query.filter_by(short_name=athlete_data["category"]["short_name"]).first()
         user = User.query.filter_by(email=user_data["email"]).first()
+        athlete = Athlete.query.filter_by(email= athlete_data["email"]).first()
         
 
-        if user is None:
+        if user is None and athlete is None:
             try:
 
                 user = User(

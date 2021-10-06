@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, validate,validates, ValidationError, validates_schema, post_dump
 from main.models import User, Athlete, Club, Category
-
-
+import re
+import datetime
 
 # #########################
 # marshmallow schemas
@@ -18,16 +18,6 @@ class ClubSchema(Schema):
     athletes = fields.List(fields.Nested("AthleteSchema",exclude=("club",)))
     competitions = fields.List(fields.Nested("CompetitionSchema", only=("id", "name", "competition", "is_active", "city", "date")))
 
-class RaceSchema(Schema):
-
-    id = fields.Int(required= True, dump_only=True)
-    rank = fields.Int()
-    time = fields.Time()
-
-    athlete = fields.Nested("AthleteSchema",exclude=("competitions",))
-    stage = fields.Nested("StageSchema",exclude=("competition",))
-
-
 
 
 class AthleteSchema(Schema):
@@ -43,7 +33,7 @@ class AthleteSchema(Schema):
 
     # Nested fields
     club = fields.Nested("ClubSchema",only=("id","short_name", "name", "city"))
-    stages = fields.List(fields.Nested("StageSchema", only=("id", "name","competition")))
+    stages = fields.List(fields.Nested("StageSchema", only=("id", "name","competition","date")))
     results = fields.List(fields.Nested("ResultSchema", exclude=("stage", "athlete")))
 
     
@@ -69,10 +59,11 @@ class AthleteSchema(Schema):
     # validate if category exists
     @validates("category")
     def validate_category(self, value):
-        category = Category.query.filter_by(short_name=value["short_name"]).first()
+        category = Category.query.filter_by(name=value["name"]).first()
         if category is None:
             raise ValidationError("This category doesn't exists!!")
 
+    
     # validate if club exists
     @validates("club")
     def validate_club(self, value):
@@ -80,13 +71,26 @@ class AthleteSchema(Schema):
         if club is None:
             raise ValidationError("This club doesn't exists!!")
 
-    # validate if email number already in use
-    @validates("email")
-    def validate_email(self, value):
-        athelete = User.query.filter_by(email=value).first()
-        if athelete:
-            raise ValidationError("This email already in use!!")
+    @validates_schema()
+    def validate_schema(self, data, **kwargs):
+        errors = {}
+        # category_age = int(re.search('\d+', data["category"]["short_name"]).group())
+        # print(type(data["born"]))
+        # athlete_age_date = datetime.date.today().year - data["born"].year
+        # print(athlete_age_date, category_age)
+        # if athlete_age_date > 20:
+        #     if athlete_age_date < category_age:
+        #         errors["category"] = ["This athlete can not be race in this category !!"]
 
+        cat_sex = data["category"]["short_name"][0]
+        print(cat_sex)
+        if cat_sex == "E" and data["sex"] != "Erkek":
+            errors["sex"] = ["You can not register to another gender's category!!!"]
+        elif cat_sex == "K" and data["sex"] != "Kadın":
+            errors["sex"] = ["You can not register to another gender's category!!!"]
+
+        if errors:
+            raise ValidationError(errors)
 
 class CategorySchema(Schema):
     id = fields.Int(required= True, dump_only=True)
@@ -97,6 +101,13 @@ class CategorySchema(Schema):
     competitions = fields.List(fields.Nested("CompetitionSchema", only=("id", "name", "date", "city")))
     athletes = fields.List(fields.Nested("AthleteSchema", only=("id", "first_name","last_name")))
 
+    # validate if category exists
+    @validates("short_name")
+    def validate_category(self, value):
+        category = Category.query.filter_by(short_name=value).first()
+        if category is None:
+            raise ValidationError("This category doesn't exists!!")
+
 
 class StageSchema(Schema):
     id = fields.Int(required= True, dump_only=True)
@@ -104,6 +115,8 @@ class StageSchema(Schema):
     name = fields.String(required= True)
     length = fields.Float()
     controls = fields.Integer()
+    date = fields.DateTime(reqired=True)
+
 
     # Nested fields
     competition = fields.Nested("CompetitionSchema", only=("id", "name", "date", "city"))
@@ -143,18 +156,8 @@ class UserSchema(Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True, load_only=True) 
     password_rep = fields.String(required=True, load_only=True) 
-    is_director = fields.Boolean(required= True, dump_only=True, default=False)
-
 
     club = fields.Nested("ClubSchema", only=("id","short_name", "name", "city"))
-
-    # validate if email number already in use
-    @validates("email")
-    def validate_email(self, value):
-        athelete = User.query.filter_by(email=value).first()
-        if athelete:
-            raise ValidationError("This email already in use!!")
-
 
 
     @validates_schema()

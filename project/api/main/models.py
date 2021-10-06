@@ -1,4 +1,6 @@
 from main import db, bcrypt, app
+from sqlalchemy.orm import validates
+import re
 import datetime
 import os
 
@@ -27,6 +29,14 @@ class User(db.Model):
         self.registered_on = datetime.datetime.now()
         self.is_admin = admin
         self.is_director = is_director
+
+    @validates('email')
+    def validate_address(self, key, email):
+        if not (re.match("\A(?P<name>[\w\-_]+)@(?P<domain>[\w\-_]+).(?P<toplevel>[\w]+)\Z",email,re.IGNORECASE)):
+            raise ValueError("Not a valid email!!")
+                
+        return email
+
 
     def check_user_pass(self, attemp):
         return bcrypt.check_password_hash(self.password, attemp)
@@ -126,6 +136,7 @@ class Stage(db.Model):
     short_name = db.Column(db.String(15), nullable=False)
     length = db.Column(db.Float, nullable=False)
     controls = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
 
     result = db.relationship("Result",back_populates="stage", lazy=True,viewonly=True)
     athletes = db.relationship("Athlete",secondary="results",lazy="subquery", back_populates="stages")

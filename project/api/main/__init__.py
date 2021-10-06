@@ -15,6 +15,8 @@ import sys
 sys.path.append('../config')
 from config import DevelopmentConfig
 
+# ######################################
+# Initiate the app and import app settings from config file
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig())
@@ -94,18 +96,21 @@ from main.auth.auth import LoginApi, RegisterApi, LogoutApi, RefreshApi
 auth_bp = Blueprint('auth', __name__, url_prefix="/auth")
 auth = Api(auth_bp)
 
+# Add api resources
+
 api.add_resource(Test, "/test")
 api.add_resource(ClubApi, "/club/<int:club_id>")
 api.add_resource(ClubsAllApi, "/clubs")
 api.add_resource(CompetitionApi, "/competition/<int:competition_id>")
 api.add_resource(CompetitionsAllApi, "/competitions")
 
+# Add auth resources
+
 auth.add_resource(LoginApi, "/login")
 auth.add_resource(RegisterApi, "/register")
 auth.add_resource(LogoutApi, "/logout")
 auth.add_resource(RefreshApi, "/refresh")
 
-
-
+# register blueprints
 app.register_blueprint(api_bp)
 app.register_blueprint(auth_bp)

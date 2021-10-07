@@ -185,6 +185,83 @@ footer .footer-links .footer-link a:hover {
   transition: all 0.3s linear;
 }
 
+.register-user {
+  height: 100%;
+  width: 100%;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.register-form {
+  background: #c5e5fc;
+  border-radius: 0.25rem;
+  display: grid;
+  grid-gap: 25px;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15rem;
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 1rem 0;
+  width: 280vh;
+  transition: all 0.3s linear;
+}
+
+.register-form.slide {
+  transition: all 0.3s linear;
+  left: -120%;
+}
+
+.register-form .part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 1rem;
+  height: 100%;
+  position: relative;
+  transition: all 0.3s linear;
+  margin: 0 3rem;
+}
+
+.register-form label {
+  font-size: 1rem;
+  padding: 0.3rem 0.3rem;
+  text-align: right;
+}
+
+.register-form .form-control {
+  display: grid;
+  grid-gap: 25px;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  padding: 0.3rem 0;
+}
+
+.register-form .form-control .form-input {
+  font-size: 1rem;
+  padding: 0.2rem;
+  border: 0.5px #9eb2c7 solid;
+  border-radius: 0.25rem;
+}
+
+.register-form .btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
+}
+
 /*
 =============== 
 Global Styles
@@ -215,6 +292,18 @@ main {
   justify-content: space-around;
   padding: 0 2rem;
   height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  margin: 80px 0;
+  background: #ebf7ff;
+  height: 100%;
+  width: 100%;
 }
 
 ul {
@@ -252,6 +341,47 @@ h4 {
 
 p {
   color: #324d67;
+}
+
+/* Global form classes */
+.form {
+  background: #c5e5fc;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.form label {
+  font-size: 1rem;
+  padding: 0.3rem 0.3rem;
+  text-align: right;
+}
+
+.form .form-control {
+  display: grid;
+  grid-gap: 25px;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  padding: 0.3rem 0;
+}
+
+.form .form-control .form-input {
+  font-size: 1rem;
+  padding: 0.2rem;
+  border: 0.5px #9eb2c7 solid;
+  border-radius: 0.25rem;
+}
+
+.form .form-title {
+  width: 100%;
+  align-self: flex-start;
 }
 
 @media screen and (min-width: 800px) {

@@ -13,6 +13,7 @@ try:
     competition_schema = CompetitionSchema()
     competitions_schema = CompetitionSchema(many=True,only=("adress","id", "name", "date", "city","si_available","is_active", "register_due"))
 
+    athlete_schema = AthleteSchema()
 except Exception as error:
     print(error)
 
@@ -108,4 +109,24 @@ class CompetitionsAllApi(Resource):
             # if there is an error print and response with fail
             print(error)
             return {"status": "fail", "message" : error}
+
+
+class AthleteApi(Resource):
+    ### returns athlete api
+    # @jwt_required()
+    def get(self, athlete_id):
+
+        try:
+            athlete = Athlete.query.filter_by(id=athlete_id).first()
+
+            if athlete:
+                athlete_out = athlete_schema.dump(athlete)
+                return {"status":"succes", "athletes":athlete_out}
+            else: 
+                return {"status": "fail", "message" : "No athlete exists with this id!!!"}
+
+        except Exception as e:
+            print(e)
+            return {"status": "fail", "message": e}
+
 

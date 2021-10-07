@@ -1,5 +1,4 @@
-import React, { useContext, createContext, useReducer } from 'react'
-import App from './App'
+import React, { useContext, createContext, useReducer, useState } from 'react'
 import reducer from './reducer'
 
 const url = `${process.env.REACT_APP_DEV_URL}`
@@ -10,6 +9,8 @@ const initialState = {
   user: {
     firstName: '',
     lastName: '',
+    email: '',
+    club: {},
     isAdmin: false,
     isDirector: false,
     isAuth: false,
@@ -23,8 +24,11 @@ const initialState = {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+
   return (
-    <AppContext.Provider value={{ ...state, dispatch }}>
+    <AppContext.Provider
+      value={{ ...state, dispatch }}
+    >
       {children}
     </AppContext.Provider>
   )

@@ -1,6 +1,7 @@
 @import 'config';
 @import 'nav';
 @import 'footer';
+@import 'register_user';
 /*
 =============== 
 Global Styles
@@ -27,6 +28,14 @@ main {
   justify-content: space-around;
   padding: 0 2rem;
   height: 100vh;
+}
+
+.container {
+  @include flexMix(column);
+  margin: 80px 0;
+  background: $clr-primary-10;
+  height: 100%;
+  width: 100%;
 }
 
 ul {
@@ -58,6 +67,40 @@ h4 {
 p {
   color: $clr-grey-3;
 }
+
+/* Global form classes */
+
+.form {
+  background: $clr-primary-9;
+  border-radius: $radius;
+  @include flexMix(column);
+  padding: 1rem;
+
+  label {
+    font-size: 1rem;
+    padding: 0.3rem 0.3rem;
+    text-align: right;
+  }
+
+  .form-control {
+    @include gridMix(2);
+    width: 100%;
+    padding: 0.3rem 0;
+
+    .form-input {
+      font-size: 1rem;
+      padding: 0.2rem;
+      border: 0.5px $clr-grey-7 solid;
+      border-radius: $radius;
+    }
+  }
+
+  .form-title {
+    width: 100%;
+    align-self: flex-start;
+  }
+}
+
 @media screen and (min-width: 800px) {
   h1 {
     font-size: 2rem;

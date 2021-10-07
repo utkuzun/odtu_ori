@@ -1,6 +1,6 @@
 import logo from './logo.svg'
 import './App.css'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import './css/main.css'
 
 import Navbar from './pages/Nav'
@@ -9,6 +9,7 @@ import About from './pages/About'
 import Registiration from './pages/Registiration'
 import Footer from './pages/Footer'
 import Contacts from './pages/Contacts'
+import RegisterUser from './pages/Auth'
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
         </Route>
         <Route exact path='/about'>
           <About />
+        </Route>
+        <Route path='/register_user'>
+          <RegisterUser />
         </Route>
       </Switch>
       <Footer />

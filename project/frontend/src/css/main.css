@@ -23,7 +23,6 @@ Variables
   transition: all 0.3s linear;
   text-transform: capitalize;
 }
-
 .btn:hover {
   transform: scale(1.1);
 }
@@ -42,7 +41,6 @@ nav {
   flex-direction: row;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
-
 nav .nav_center {
   display: flex;
   justify-content: center;
@@ -54,7 +52,6 @@ nav .nav_center {
   padding: 0 2rem;
   width: 100%;
 }
-
 nav .nav_center .nav_headers {
   display: flex;
   justify-content: center;
@@ -62,27 +59,18 @@ nav .nav_center .nav_headers {
   text-align: center;
   flex-direction: row;
 }
-
 nav .nav_center .nav_headers .toggle_menu {
   display: none;
 }
-
 nav .nav_center .nav_headers h1 {
   background: #063251;
-  background-image: linear-gradient(
-    135deg,
-    #020024 0%,
-    #790976 38%,
-    #00d4ff 100%
-  );
+  background-image: linear-gradient(135deg, #020024 0%, #790976 38%, #00d4ff 100%);
   background-clip: text;
   color: transparent;
 }
-
 nav .nav_center .nav_links {
   padding: 0 0.5rem;
 }
-
 nav .nav_center .nav_links .nav_link {
   margin: 0 0.3rem;
   color: #fff;
@@ -91,11 +79,9 @@ nav .nav_center .nav_links .nav_link {
   font-weight: 500;
   letter-spacing: 0.1rem;
 }
-
 nav .nav_center .nav_links .nav_link:hover {
   color: #104e7a;
 }
-
 nav .nav_center .nav_auth {
   display: flex;
   justify-content: center;
@@ -103,7 +89,6 @@ nav .nav_center .nav_auth {
   text-align: center;
   flex-direction: row;
 }
-
 nav .nav_center .nav_auth .login,
 nav .nav_center .nav_auth .register,
 nav .nav_center .nav_auth .logoff {
@@ -125,7 +110,6 @@ footer {
   background: #bb2525;
   padding: 5px 25px;
 }
-
 footer .footer-container {
   width: 100%;
   display: grid;
@@ -136,12 +120,10 @@ footer .footer-container {
   grid-template-columns: repeat(4, 1fr);
   justify-content: space-around;
 }
-
 footer .footer-trademark p {
   color: #222;
   font-size: 0.7rem;
 }
-
 footer .footer-navs {
   display: flex;
   justify-content: center;
@@ -151,7 +133,6 @@ footer .footer-navs {
   text-align: left;
   align-items: center;
 }
-
 footer .footer-nav a {
   text-transform: capitalize;
   padding: 0 0.5rem;
@@ -160,12 +141,10 @@ footer .footer-nav a {
   color: #fff;
   transition: all 0.3s linear;
 }
-
 footer .footer-nav a:hover {
   transition: all 0.3s linear;
   color: #063251;
 }
-
 footer .footer-links {
   display: flex;
   justify-content: center;
@@ -173,18 +152,15 @@ footer .footer-links {
   text-align: center;
   flex-direction: row;
 }
-
 footer .footer-links .footer-link {
   padding: 0 0.2rem;
   height: 100%;
 }
-
 footer .footer-links .footer-link a {
   font-size: 1.5rem;
   color: #ebf7ff;
   transition: all 0.3s linear;
 }
-
 footer .footer-links .footer-link a:hover {
   color: #063251;
   transition: all 0.3s linear;
@@ -214,12 +190,10 @@ footer .footer-links .footer-link a:hover {
   width: 280vh;
   transition: all 0.3s linear;
 }
-
 .register-form.slide {
   transition: all 0.3s linear;
   left: -120%;
 }
-
 .register-form .part {
   display: flex;
   justify-content: center;
@@ -232,13 +206,11 @@ footer .footer-links .footer-link a:hover {
   transition: all 0.3s linear;
   margin: 0 3rem;
 }
-
 .register-form label {
   font-size: 1rem;
   padding: 0.3rem 0.3rem;
   text-align: right;
 }
-
 .register-form .form-control {
   display: grid;
   grid-gap: 25px;
@@ -249,14 +221,12 @@ footer .footer-links .footer-link a:hover {
   width: 100%;
   padding: 0.3rem 0;
 }
-
 .register-form .form-control .form-input {
-  font-size: 1rem;
-  padding: 0.2rem;
+  font-size: 0.7rem;
+  padding: 0.3rem;
   border: 0.5px #9eb2c7 solid;
   border-radius: 0.25rem;
 }
-
 .register-form .btn-container {
   display: flex;
   justify-content: center;
@@ -359,13 +329,11 @@ p {
   flex-direction: column;
   padding: 1rem;
 }
-
 .form label {
   font-size: 1rem;
   padding: 0.3rem 0.3rem;
   text-align: right;
 }
-
 .form .form-control {
   display: grid;
   grid-gap: 25px;
@@ -376,14 +344,12 @@ p {
   width: 100%;
   padding: 0.3rem 0;
 }
-
 .form .form-control .form-input {
-  font-size: 1rem;
-  padding: 0.2rem;
+  font-size: 0.6rem;
+  padding: 0.3rem;
   border: 0.5px #9eb2c7 solid;
   border-radius: 0.25rem;
 }
-
 .form .form-title {
   width: 100%;
   align-self: flex-start;
@@ -393,25 +359,30 @@ p {
   h1 {
     font-size: 2rem;
   }
+
   h2 {
     font-size: 1.75rem;
   }
+
   h3 {
     font-size: 1.2rem;
   }
+
   h4 {
     font-size: 1rem;
   }
+
   body {
     font-size: 0.7rem;
   }
+
   h1,
-  h2,
-  h3,
-  h4 {
+h2,
+h3,
+h4 {
     line-height: 1;
   }
 }
-
 /*  global classes */
+
 /*# sourceMappingURL=main.css.map */

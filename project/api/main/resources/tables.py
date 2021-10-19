@@ -1,13 +1,17 @@
 from flask import request
+from flask.signals import request_started
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required
 
 from main.models import User, Athlete, Club, Category, TokenBlocklist, Competition
-from main.schemas.auth import UserSchema, ClubSchema, AthleteSchema, CompetitionSchema
+from main.schemas.auth import UserSchema, ClubSchema, AthleteSchema, CompetitionSchema,CategorySchema
 
 try:
     club_schema = ClubSchema()
     clubs_schema = ClubSchema(many=True, exclude=("athletes", "user"))
+
+    category_schema = CategorySchema()
+    categories_schema = CategorySchema(many=True, exclude=("competitions", "athletes"))
 
 
     competition_schema = CompetitionSchema()
@@ -16,6 +20,46 @@ try:
     athlete_schema = AthleteSchema()
 except Exception as error:
     print(error)
+
+class CategoryApi(Resource):
+    ### returns one category with spesified category_id 
+
+    def get(self, category_id):
+
+        try:
+            category = Category.query.filter_by(id=category_id).first()
+
+            # query category with category id return category with success status
+            if category:
+                return {"status": "success", "category":category_schema.dump(category)}
+
+            else:
+                # if category doesn't exists return error
+                return {"status" : "fail", "message" : "This Category doesn't exists !!"}
+
+        # if there is an error print and response with fail
+        except Exception as err:
+            print(err)
+            return {"status": "fail", "message" : err}
+
+class CategoriesApi(Resource):
+
+    def get(self):
+        try:
+            categories = Category.query.all()
+
+            if categories:
+                categories_out = clubs_schema.dump(categories)
+                return {"status" : "success", "categories" : categories_out}
+
+            else : 
+                return {"status": "fail", "message" : "No club exists yet!!!"}
+
+        except Exception as error:
+            # if there is an error print and response with fail
+            print(error)
+            return {"status": "fail", "message" : error}
+
 
     
 class ClubApi(Resource):

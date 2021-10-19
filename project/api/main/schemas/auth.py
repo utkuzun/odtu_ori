@@ -16,7 +16,7 @@ class ClubSchema(Schema):
     # Nested fields
     user = fields.Nested("UserSchema",only=("id","first_name", "last_name", "email"))
     athletes = fields.List(fields.Nested("AthleteSchema",exclude=("club",)))
-    competitions = fields.List(fields.Nested("CompetitionSchema", only=("id", "name", "competition", "is_active", "city", "date")))
+    competitions = fields.List(fields.Nested("CompetitionSchema", only=("id", "name", "is_active", "city", "date")))
 
 
 

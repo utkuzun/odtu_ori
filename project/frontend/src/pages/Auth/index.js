@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-// import { useGlobalContext } from '../../context'
+import React, { useState, useEffect } from 'react'
+import { useGlobalContext } from '../../context'
+import { deneme_clubs, deneme_categories } from '../data'
 
 function RegisterUser() {
   const [slide, setSlide] = useState(false)
+  const { dispatch } = useGlobalContext()
+
   const [registerUser, setRegisterUser] = useState({
     user: {
       first_name: '',
@@ -12,16 +15,24 @@ function RegisterUser() {
       password_rep: '',
     },
     athlete: {
-      club: {},
+      club: '',
       category: {},
       first_name: '',
       last_name: '',
       email: '',
-      born: new Date(2000, 0, 0),
+      born: new Date(2000, 0, 0).toISOString().slice(0, 10),
       sex: '',
-      si: '',
+      si: 0,
     },
   })
+
+  const fetchChoices = () => {
+    dispatch({ type: 'FETCH_CHOICES' })
+  }
+
+  useEffect(() => {
+    fetchChoices()
+  }, [])
 
   const handleChangeUser = (e) => {
     const name = e.target.name
@@ -145,44 +156,69 @@ function RegisterUser() {
             </div>
             <div className='form-control'>
               <label htmlFor='club'>Kulüp</label>
-              <input
-                type='text'
-                id='club'
+              <select
                 name='club'
-                value={registerUser.user.first_name}
-                className='form-input'
+                id='club'
+                value={registerUser.athlete.club}
                 onChange={handleChangeAthlete}
-              />
+                className='form-input'
+              >
+                {deneme_clubs.map((club) => {
+                  return (
+                    <option key={club.id} value={club.short_name}>
+                      {club.name}
+                    </option>
+                  )
+                })}
+              </select>
             </div>
             <div className='form-control'>
-              <label htmlFor='last_name'>Category</label>
+              <label htmlFor='category'>Kategori</label>
+              <select
+                name='category'
+                id='category'
+                value={registerUser.athlete.category}
+                onChange={handleChangeAthlete}
+                className='form-input'
+              >
+                {deneme_categories.map((category) => {
+                  return (
+                    <option key={category.id} value={category.short_name}>
+                      {category.short_name}
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+            <div className='form-control'>
+              <label htmlFor='sex'>Cinsiyet</label>
               <input
                 type='text'
-                id='last_name'
-                name='last_name'
+                id='sex'
+                name='sex'
                 className='form-input'
-                value={registerUser.user.last_name}
+                value={registerUser.athlete.sex}
                 onChange={handleChangeAthlete}
               />
             </div>
             <div className='form-control'>
-              <label htmlFor='email'>Cinsiyet</label>
+              <label htmlFor='si'>SI numarası</label>
               <input
-                type='email'
-                id='email'
-                name='email'
+                type='number'
+                id='si'
+                name='si'
+                value={registerUser.athlete.si}
                 className='form-input'
-                value={registerUser.user.email}
                 onChange={handleChangeAthlete}
               />
             </div>
             <div className='form-control'>
-              <label htmlFor='password'>SI numarası</label>
+              <label htmlFor='born'>Doğum Tarihi</label>
               <input
-                type='password'
-                id='password'
-                name='password'
-                value={registerUser.user.password}
+                type='date'
+                id='born'
+                name='born'
+                value={registerUser.athlete.born}
                 className='form-input'
                 onChange={handleChangeAthlete}
               />

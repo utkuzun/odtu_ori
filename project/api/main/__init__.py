@@ -90,7 +90,7 @@ api_bp = Blueprint('api', __name__, url_prefix="/api")
 api = Api(api_bp)
 
 from main.resources.tests import Test
-from main.resources.tables import AthleteApi,ClubApi, ClubsAllApi, CompetitionApi, CompetitionsAllApi
+from main.resources.tables import CategoriesApi,CategoryApi,AthleteApi,ClubApi, ClubsAllApi, CompetitionApi, CompetitionsAllApi
 from main.auth.auth import LoginApi, RegisterApi, LogoutApi, RefreshApi
 
 auth_bp = Blueprint('auth', __name__, url_prefix="/auth")
@@ -104,6 +104,8 @@ api.add_resource(ClubsAllApi, "/clubs")
 api.add_resource(CompetitionApi, "/competition/<int:competition_id>")
 api.add_resource(CompetitionsAllApi, "/competitions")
 api.add_resource(AthleteApi, "/athlete/<int:athlete_id>")
+api.add_resource(CategoryApi, "/category/<int:category_id>")
+api.add_resource(CategoriesApi, "/categories")
 
 # Add auth resources
 

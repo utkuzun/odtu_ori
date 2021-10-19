@@ -69,12 +69,7 @@ nav .nav_center .nav_headers .toggle_menu {
 
 nav .nav_center .nav_headers h1 {
   background: #063251;
-  background-image: linear-gradient(
-    135deg,
-    #020024 0%,
-    #790976 38%,
-    #00d4ff 100%
-  );
+  background-image: linear-gradient(135deg, #020024 0%, #790976 38%, #00d4ff 100%);
   background-clip: text;
   color: transparent;
 }
@@ -251,8 +246,8 @@ footer .footer-links .footer-link a:hover {
 }
 
 .register-form .form-control .form-input {
-  font-size: 1rem;
-  padding: 0.2rem;
+  font-size: 0.7rem;
+  padding: 0.3rem;
   border: 0.5px #9eb2c7 solid;
   border-radius: 0.25rem;
 }
@@ -378,8 +373,8 @@ p {
 }
 
 .form .form-control .form-input {
-  font-size: 1rem;
-  padding: 0.2rem;
+  font-size: 0.6rem;
+  padding: 0.3rem;
   border: 0.5px #9eb2c7 solid;
   border-radius: 0.25rem;
 }

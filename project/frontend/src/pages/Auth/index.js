@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useGlobalContext } from '../../context'
-import { deneme_clubs, deneme_categories } from '../data'
 
 function RegisterUser() {
   const [slide, setSlide] = useState(false)
-  const { dispatch } = useGlobalContext()
+  const { dispatch, fetchChoices, state } = useGlobalContext()
 
   const [registerUser, setRegisterUser] = useState({
     user: {
@@ -16,7 +15,7 @@ function RegisterUser() {
     },
     athlete: {
       club: '',
-      category: {},
+      category: '',
       first_name: '',
       last_name: '',
       email: '',
@@ -25,10 +24,6 @@ function RegisterUser() {
       si: 0,
     },
   })
-
-  const fetchChoices = () => {
-    dispatch({ type: 'FETCH_CHOICES' })
-  }
 
   useEffect(() => {
     fetchChoices()
@@ -163,7 +158,7 @@ function RegisterUser() {
                 onChange={handleChangeAthlete}
                 className='form-input'
               >
-                {deneme_clubs.map((club) => {
+                {state.clubs.map((club) => {
                   return (
                     <option key={club.id} value={club.short_name}>
                       {club.name}
@@ -181,7 +176,7 @@ function RegisterUser() {
                 onChange={handleChangeAthlete}
                 className='form-input'
               >
-                {deneme_categories.map((category) => {
+                {state.categories.map((category) => {
                   return (
                     <option key={category.id} value={category.short_name}>
                       {category.short_name}

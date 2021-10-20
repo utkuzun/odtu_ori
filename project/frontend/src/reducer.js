@@ -5,9 +5,11 @@ const reducer = (state, action) => {
     return state
   }
 
-  if (action.type === 'FETCH_CHOICES') {
-    console.log('Fetch func')
-    return state
+  if (action.type === 'SET_CLUBS') {
+    return { ...state, clubs: action.payload }
+  }
+  if (action.type === 'SET_CATEGORIES') {
+    return { ...state, categories: action.payload }
   }
 
   throw new Error('no matching action type')

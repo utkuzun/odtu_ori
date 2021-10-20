@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useGlobalContext } from '../.././context'
 
 function Navbar() {
-  const { user, dispatch } = useGlobalContext()
+  const { state, dispatch } = useGlobalContext()
 
   // useEffect(() => {
   //   dispatch({ type: 'TEST' })
@@ -38,17 +38,17 @@ function Navbar() {
         </ul>
 
         <ul className='nav_auth'>
-          {!user.isAuth && (
+          {!state.user.isAuth && (
             <Link to='login' className='btn login'>
               Giriş
             </Link>
           )}
-          {!user.isAuth && (
+          {!state.user.isAuth && (
             <Link to='register_user' className='btn register'>
               Kaydol
             </Link>
           )}
-          {user.isAuth && (
+          {state.user.isAuth && (
             <Link to='logoff' className='btn logoff'>
               çıkış
             </Link>

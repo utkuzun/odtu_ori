@@ -7,6 +7,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager, current_user
 from flask_restful import Api, Resource
+from flask_cors import CORS
 import datetime
 import os
 import sys
@@ -88,6 +89,8 @@ def check_if_token_revoked(jwt_header, jwt_payload):
 # Add Resources
 api_bp = Blueprint('api', __name__, url_prefix="/api")
 api = Api(api_bp)
+CORS(api_bp)
+
 
 from main.resources.tests import Test
 from main.resources.tables import CategoriesApi,CategoryApi,AthleteApi,ClubApi, ClubsAllApi, CompetitionApi, CompetitionsAllApi

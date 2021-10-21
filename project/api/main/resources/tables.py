@@ -8,7 +8,7 @@ from main.schemas.auth import UserSchema, ClubSchema, AthleteSchema, Competition
 
 try:
     club_schema = ClubSchema()
-    clubs_schema = ClubSchema(many=True, exclude=("athletes", "user"))
+    clubs_schema = ClubSchema(many=True, exclude=("athletes", "user","competitions"))
 
     category_schema = CategorySchema()
     categories_schema = CategorySchema(many=True, exclude=("competitions", "athletes"))
@@ -49,7 +49,7 @@ class CategoriesApi(Resource):
             categories = Category.query.all()
 
             if categories:
-                categories_out = clubs_schema.dump(categories)
+                categories_out = categories_schema.dump(categories)
                 return {"status" : "success", "categories" : categories_out}
 
             else : 

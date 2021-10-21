@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate,validates, ValidationError, validates_schema, post_dump
+from marshmallow import pre_load,Schema, fields, validate,validates, ValidationError, validates_schema, post_dump
 from main.models import User, Athlete, Club, Category
 import re
 import datetime
@@ -45,21 +45,21 @@ class AthleteSchema(Schema):
             if athelete:
                 raise ValidationError("This si number already in use!!")
 
-    # @pre_load
-    # def load_category_objects(self, data, **kwargs):
-    #     category = Category.query.filter_by(short_name = data["category"]).first()
-    #     data[]
-
-
-    # @post_dump
-    # def format_category(self, data, **kwargs):
-    #     data["category"] = data["category"]["short_name"]
-    #     return data
+    # make club and category object from unique short_name requests
+    @pre_load
+    def load_category_objects(self, data, **kwargs):
+        category = Category.query.filter_by(short_name = data["category"]).first()
+        data["category"] = {k:category.__dict__[k] for k in  category.__dict__.keys() & {"short_name", "name"}}
+        club = Club.query.filter_by(short_name = data["club"]).first()
+        data["club"] = {k:club.__dict__[k] for k in  club.__dict__.keys() & {"short_name", "name", "city"}}
+        return data
 
     # validate if category exists
     @validates("category")
     def validate_category(self, value):
-        category = Category.query.filter_by(name=value["name"]).first()
+        print(value)
+
+        category = Category.query.filter_by(short_name=value["short_name"]).first()
         if category is None:
             raise ValidationError("This category doesn't exists!!")
 
@@ -67,10 +67,12 @@ class AthleteSchema(Schema):
     # validate if club exists
     @validates("club")
     def validate_club(self, value):
-        club = Club.query.filter_by(name=value["name"]).first()
+        print(value)
+        club = Club.query.filter_by(short_name=value["short_name"]).first()
         if club is None:
             raise ValidationError("This club doesn't exists!!")
 
+    # validate inter fields fields
     @validates_schema()
     def validate_schema(self, data, **kwargs):
         errors = {}
@@ -159,7 +161,7 @@ class UserSchema(Schema):
 
     club = fields.Nested("ClubSchema", only=("id","short_name", "name", "city"))
 
-
+    # validate if password match with each other
     @validates_schema()
     def validate_passwords(self, data, **kwargs):
         errors = {}

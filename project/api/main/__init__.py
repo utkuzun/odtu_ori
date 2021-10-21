@@ -98,6 +98,8 @@ from main.auth.auth import LoginApi, RegisterApi, LogoutApi, RefreshApi
 
 auth_bp = Blueprint('auth', __name__, url_prefix="/auth")
 auth = Api(auth_bp)
+CORS(auth_bp)
+
 
 # Add api resources
 

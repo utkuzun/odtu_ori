@@ -21,23 +21,22 @@ club_schema = ClubSchema()
 
 class RegisterApi(Resource):
     def post(self):
-
+        
+        # Load request data
         try :
-            user_data = user_schema.load(request.json["user"])
-            athlete_data = athlete_schema.load(request.json["athlete"])
+            user_data = user_schema.load(request.json["user"], unknown="EXCLUDE")
+            athlete_data = athlete_schema.load(request.json["athlete"], unknown="EXCLUDE")
+            club = Club.query.filter_by(name=athlete_data["club"]["name"]).first()
+            category = Category.query.filter_by(short_name=athlete_data["category"]["short_name"]).first()
+            user = User.query.filter_by(email=user_data["email"]).first()
+            athlete = Athlete.query.filter_by(email= athlete_data["email"]).first()
         except ValidationError as error:
             return {"status":"fail", "message":error.messages}
 
-
-        club = Club.query.filter_by(name=athlete_data["club"]["name"]).first()
-        category = Category.query.filter_by(short_name=athlete_data["category"]["short_name"]).first()
-        user = User.query.filter_by(email=user_data["email"]).first()
-        athlete = Athlete.query.filter_by(email= athlete_data["email"]).first()
-        
-
+        # check if user or athlete already exists
         if user is None and athlete is None:
             try:
-
+                # Create user and athlete objects
                 user = User(
                     user_data["first_name"], 
                     user_data["last_name"], 
@@ -56,14 +55,15 @@ class RegisterApi(Resource):
                     sex = athlete_data["sex"]
                 )
 
+                # add relations and commit to the database
                 club.athletes.append(athlete)
 
                 db.session.add(user)
                 db.session.add(athlete)
                 db.session.commit()
 
+                # return with success status and craeted athlete
                 athlete_out = athlete_schema.dump(athlete)                
-
                 return {"status":"success", "message":"User added to the database !!", "athlete":athlete_out }
 
             except Exception as e:

@@ -19,7 +19,7 @@ const initialState = {
   clubs: [],
   categories: [],
   competitions: [],
-  atheletes: [],
+  athletes: [],
 }
 
 const AppProvider = ({ children }) => {
@@ -47,7 +47,7 @@ const AppProvider = ({ children }) => {
   }
 
   return (
-    <AppContext.Provider value={{ state, dispatch, fetchChoices }}>
+    <AppContext.Provider value={{ state, dispatch, fetchChoices, url }}>
       {children}
     </AppContext.Provider>
   )

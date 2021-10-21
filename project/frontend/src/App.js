@@ -9,7 +9,7 @@ import About from './pages/About'
 import Registiration from './pages/Registiration'
 import Footer from './pages/Footer'
 import Contacts from './pages/Contacts'
-import RegisterUser from './pages/Auth'
+import RegisterUser from './pages/Register'
 
 function App() {
   return (

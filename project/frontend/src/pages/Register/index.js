@@ -1,11 +1,12 @@
+import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useGlobalContext } from '../../context'
 
 function RegisterUser() {
   const [slide, setSlide] = useState(false)
-  const { dispatch, fetchChoices, state } = useGlobalContext()
+  const { dispatch, fetchChoices, state, url } = useGlobalContext()
 
-  const [registerUser, setRegisterUser] = useState({
+  let register_template = {
     user: {
       first_name: '',
       last_name: '',
@@ -23,7 +24,9 @@ function RegisterUser() {
       sex: '',
       si: 0,
     },
-  })
+  }
+
+  const [registerUser, setRegisterUser] = useState(register_template)
 
   useEffect(() => {
     fetchChoices()
@@ -73,10 +76,30 @@ function RegisterUser() {
     setSlide(!slide)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(registerUser)
+    axios({
+      method: 'post',
+      url: url + 'auth/register',
+      data: registerUser,
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <div className='container'>
       <section className='register-user'>
-        <form className={`register-form ${slide && 'slide'}`}>
+        <form
+          className={`register-form ${slide && 'slide'}`}
+          onSubmit={handleSubmit}
+        >
           <div className='part' id='user'>
             <div className='form-title'>
               <h2>Hesap oluşturun</h2>
@@ -152,15 +175,17 @@ function RegisterUser() {
             <div className='form-control'>
               <label htmlFor='club'>Kulüp</label>
               <select
+                type='text'
                 name='club'
                 id='club'
                 value={registerUser.athlete.club}
                 onChange={handleChangeAthlete}
                 className='form-input'
               >
-                {state.clubs.map((club) => {
+                <option value=''></option>
+                {state.clubs.map((club, index) => {
                   return (
-                    <option key={club.id} value={club.short_name}>
+                    <option key={index} value={club.short_name}>
                       {club.name}
                     </option>
                   )
@@ -170,15 +195,17 @@ function RegisterUser() {
             <div className='form-control'>
               <label htmlFor='category'>Kategori</label>
               <select
+                type='text'
                 name='category'
                 id='category'
                 value={registerUser.athlete.category}
                 onChange={handleChangeAthlete}
                 className='form-input'
               >
-                {state.categories.map((category) => {
+                <option value=''></option>
+                {state.categories.map((category, index) => {
                   return (
-                    <option key={category.id} value={category.short_name}>
+                    <option key={index} value={category.short_name}>
                       {category.short_name}
                     </option>
                   )
@@ -187,14 +214,18 @@ function RegisterUser() {
             </div>
             <div className='form-control'>
               <label htmlFor='sex'>Cinsiyet</label>
-              <input
+              <select
                 type='text'
                 id='sex'
                 name='sex'
                 className='form-input'
                 value={registerUser.athlete.sex}
                 onChange={handleChangeAthlete}
-              />
+              >
+                <option value=''></option>
+                <option value='Erkek'>Erkek</option>
+                <option value='Kadın'>Kadın</option>
+              </select>
             </div>
             <div className='form-control'>
               <label htmlFor='si'>SI numarası</label>
@@ -222,7 +253,9 @@ function RegisterUser() {
               <button className='btn' onClick={toggleSlide}>
                 Önceki
               </button>
-              <button className='btn'>Kaydol</button>
+              <button type='submit' className='btn'>
+                Kaydol
+              </button>
             </div>
           </div>
         </form>

@@ -28,6 +28,8 @@ bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 Migrate(app, db)
 
+cors = CORS(app, origins=["http://localhost:3000"])
+
 # #######################################
 # Add views to admin page
 admin = Admin(app, name='odtü ori', template_mode='bootstrap3')
@@ -89,7 +91,6 @@ def check_if_token_revoked(jwt_header, jwt_payload):
 # Add Resources
 api_bp = Blueprint('api', __name__, url_prefix="/api")
 api = Api(api_bp)
-CORS(api_bp)
 
 
 from main.resources.tests import Test
@@ -98,7 +99,6 @@ from main.auth.auth import LoginApi, RegisterApi, LogoutApi, RefreshApi
 
 auth_bp = Blueprint('auth', __name__, url_prefix="/auth")
 auth = Api(auth_bp)
-CORS(auth_bp)
 
 
 # Add api resources
